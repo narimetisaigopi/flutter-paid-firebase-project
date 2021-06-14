@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_first_app/news_model.dart';
+import 'package:path/path.dart';
 
 class PostScreen extends StatefulWidget {
   @override
@@ -28,10 +29,15 @@ class _PostScreenState extends State<PostScreen> {
         child: Column(
           children: [
             file != null
-                ? Image.file(
-                    file,
-                    height: 100,
-                    width: 100,
+                ? Column(
+                    children: [
+                      Image.file(
+                        file,
+                        height: 100,
+                        width: 100,
+                      ),
+                      Text("Image Path >>> ${file.path}")
+                    ],
                   )
                 : Text("No Image selected"),
             ElevatedButton(
@@ -52,7 +58,7 @@ class _PostScreenState extends State<PostScreen> {
             SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () {
-                  postNews();
+                  uploadImage();
                 },
                 child: Text("Post"))
           ],
@@ -61,20 +67,29 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  postNews() async {
+  postNews(String imageURL) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     NewsModel newsModel = NewsModel();
     newsModel.title = titleTextEditingController.text;
     newsModel.description = descriptionTextEditingController.text;
     newsModel.uid = FirebaseAuth.instance.currentUser.uid;
+    newsModel.imageUrl = imageURL;
     // Map<String, dynamic> map = Map();
     // map['title'] = titleTextEditingController.text;
     // map['description'] = descriptionTextEditingController.text;
     // map['uid'] = FirebaseAuth.instance.currentUser.uid;
     // map['timestamp'] = FieldValue.serverTimestamp();
-    await firebaseFirestore.collection("news").add(newsModel.toMap());
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Posted News")));
+
+    DocumentReference documentReference =
+        firebaseFirestore.collection("news").doc();
+    newsModel.docID = documentReference.id;
+    //await documentReference.set(newsModel.toMap());
+
+    await documentReference.set(newsModel.toMap());
+
+    // ScaffoldMessenger.of(context)
+    //     .showSnackBar(SnackBar(content: Text("Posted News")));
+    // Navigator.pop(context);
     // titleTextEditingController.clear();
     // descriptionTextEditingController.clear();
   }
@@ -89,5 +104,23 @@ class _PostScreenState extends State<PostScreen> {
     });
   }
 
-  uploadImage() {}
+  uploadImage() {
+    if (file == null) {
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(SnackBar(content: Text("Please select an image")));
+      return;
+    }
+    // String fileName = "user file " + DateTime.now().microsecondsSinceEpoch.toString() + ".jpg";
+    FirebaseStorage.instance
+        .ref("images")
+        .child(basename(file.path))
+        .putFile(file)
+        .then((e) async {
+      String url = await e.ref.getDownloadURL();
+      print("Uploading image url " + url.toString());
+      postNews(url);
+    }).catchError((onError) {
+      throw Exception(onError.toString());
+    });
+  }
 }

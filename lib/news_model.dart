@@ -6,9 +6,15 @@ class NewsModel {
   String description;
   Timestamp timestamp;
   String uid;
+  String docID;
 
   NewsModel(
-      {this.imageUrl, this.title, this.description, this.timestamp, this.uid});
+      {this.imageUrl,
+      this.title,
+      this.description,
+      this.timestamp,
+      this.uid,
+      this.docID});
 
   factory NewsModel.fromMap(Map map) {
     return NewsModel(
@@ -17,6 +23,7 @@ class NewsModel {
       description: map['description'],
       timestamp: map['timestamp'],
       uid: map['uid'],
+      docID: map['docID'],
     );
   }
 
@@ -27,6 +34,7 @@ class NewsModel {
       'description': description,
       'timestamp': FieldValue.serverTimestamp(),
       'uid': uid,
+      'docID': docID
     };
   }
 }

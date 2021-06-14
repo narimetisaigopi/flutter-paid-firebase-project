@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/news_model.dart';
 import 'package:my_first_app/post_screen.dart';
@@ -14,7 +15,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Home Screen"),
         actions: [
-          Text(user.email),
+          Text(
+              user.email != null ? user.email : user.phoneNumber.toLowerCase()),
           IconButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
@@ -43,9 +45,34 @@ class HomeScreen extends StatelessWidget {
                     NewsModel newsModel =
                         NewsModel.fromMap(snapshot.data.docs[index].data());
 
-                    return ListTile(
-                      title: Text(newsModel.title),
-                      subtitle: Text(newsModel.description),
+                    return Card(
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            newsModel.imageUrl != null
+                                ? Image.network(
+                                    newsModel.imageUrl,
+                                    height: 150,
+                                    width: 150,
+                                  )
+                                : Container(),
+                            Text(newsModel.title),
+                            Text(newsModel.description),
+                            IconButton(
+                                onPressed: () async {
+                                  await FirebaseStorage.instance
+                                      .refFromURL(newsModel.imageUrl)
+                                      .delete();
+                                  await FirebaseFirestore.instance
+                                      .collection("news")
+                                      .doc(newsModel.docID)
+                                      .delete();
+                                },
+                                icon: Icon(Icons.delete, color: Colors.red))
+                          ],
+                        ),
+                      ),
                     );
                   });
             }

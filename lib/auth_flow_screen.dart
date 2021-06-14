@@ -6,6 +6,7 @@ import 'package:my_first_app/login_screen.dart';
 import 'package:my_first_app/registartion_screen.dart';
 
 import 'home_screen.dart';
+import 'mobile_number_screen.dart';
 
 class AuthFlowScreen extends StatefulWidget {
   @override
@@ -50,7 +51,13 @@ class _AuthFlowScreenState extends State<AuthFlowScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (_) => RegistrationScreen()));
               },
-              child: Text("Register"))
+              child: Text("Register")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => MobileNumberScreen()));
+              },
+              child: Text("Mobile Auth"))
         ],
       ),
     );
