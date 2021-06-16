@@ -6,6 +6,8 @@ import 'package:my_first_app/news_model.dart';
 import 'package:my_first_app/post_screen.dart';
 
 import 'auth_flow_screen.dart';
+import 'my_google_maps.dart';
+import 'user/payment_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -83,8 +85,8 @@ class HomeScreen extends StatelessWidget {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (builder) => PostScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (builder) => PaymentScreen()));
         },
         child: Icon(Icons.add),
       ),
