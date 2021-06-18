@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/login_screen.dart';
+import 'package:my_first_app/my_providers/state_screen.dart';
 import 'package:my_first_app/registartion_screen.dart';
 
 import 'home_screen.dart';
 import 'mobile_number_screen.dart';
+import 'my_providers/my_items_screen.dart';
 
 class AuthFlowScreen extends StatefulWidget {
   @override
@@ -18,8 +20,7 @@ class _AuthFlowScreenState extends State<AuthFlowScreen> {
     if (FirebaseAuth.instance.currentUser != null) {
       // user logged in
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (builder) => HomeScreen()),
-          (route) => false);
+          MaterialPageRoute(builder: (builder) => MyItems()), (route) => false);
     } else {
       // user not loggin in
     }

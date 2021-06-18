@@ -46,6 +46,7 @@ dependencies:
   razorpay_flutter: ^1.2.6
 
   path: ^1.8.0
+  provider: ^5.0.0
 
   
 

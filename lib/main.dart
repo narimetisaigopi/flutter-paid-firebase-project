@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'auth_flow_screen.dart';
+import 'my_providers/count_provider.dart';
+import 'my_providers/my_cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,16 +27,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root o.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'koho',
-          buttonColor: Colors.red,
-          primarySwatch: Colors.red,
-          floatingActionButtonTheme:
-              FloatingActionButtonThemeData(backgroundColor: Colors.green)),
-      home: AuthFlowScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CountProvider()),
+        ChangeNotifierProvider(create: (context) => MyCartProvider()),
+      ],
+      child: MaterialApp(
+        title: 'My App Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            fontFamily: 'koho',
+            buttonColor: Colors.red,
+            primarySwatch: Colors.red,
+            floatingActionButtonTheme:
+                FloatingActionButtonThemeData(backgroundColor: Colors.green)),
+        home: AuthFlowScreen(),
+      ),
     );
   }
 }
