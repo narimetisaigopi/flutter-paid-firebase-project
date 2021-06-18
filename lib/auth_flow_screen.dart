@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/login_screen.dart';
-import 'package:my_first_app/my_providers/state_screen.dart';
+import 'package:my_first_app/my_providers/count_increment/count_screen.dart';
 import 'package:my_first_app/registartion_screen.dart';
 
 import 'home_screen.dart';
 import 'mobile_number_screen.dart';
-import 'my_providers/my_items_screen.dart';
+import 'my_providers/cart/my_items_screen.dart';
 
 class AuthFlowScreen extends StatefulWidget {
   @override

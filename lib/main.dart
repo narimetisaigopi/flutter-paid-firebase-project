@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_flow_screen.dart';
-import 'my_providers/count_provider.dart';
-import 'my_providers/my_cart_provider.dart';
+import 'my_providers/count_increment/count_provider.dart';
+import 'my_providers/cart/my_cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

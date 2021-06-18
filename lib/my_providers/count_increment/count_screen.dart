@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/my_providers/count_provider.dart';
+import 'package:my_first_app/my_providers/count_increment/count_provider.dart';
 import 'package:provider/provider.dart';
 
-class StateScreen extends StatefulWidget {
+class CountScreen extends StatefulWidget {
   @override
-  _StateScreenState createState() => _StateScreenState();
+  _CountScreenState createState() => _CountScreenState();
 }
 
-class _StateScreenState extends State<StateScreen> {
+class _CountScreenState extends State<CountScreen> {
   CountProvider counterProvider;
   @override
   void initState() {
