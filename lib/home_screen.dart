@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
              */
             if (snapshot.hasData) {
               if (snapshot.data.docs.length == 0) {
-                return Center(child: Text("No news"));
+                return Center(child: Text("No news now"));
               }
               return ListView.builder(
                   itemCount: snapshot.data.docs.length,
