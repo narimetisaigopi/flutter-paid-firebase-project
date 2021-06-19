@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_app/news_model.dart';
-import 'package:my_first_app/post_screen.dart';
+import 'package:my_first_app/models/news_model.dart';
+import 'package:my_first_app/screens/post_screen.dart';
 
 import 'auth_flow_screen.dart';
 import 'my_google_maps.dart';
-import 'user/payment_screen.dart';
+import 'payment_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
