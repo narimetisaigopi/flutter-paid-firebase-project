@@ -1,0 +1,3 @@
+class CardAPi {
+  //data
+}

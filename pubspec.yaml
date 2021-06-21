@@ -31,7 +31,7 @@ dependencies:
   cached_network_image: ^3.0.0
   font_awesome_flutter: ^9.0.0
   fluttertoast: ^8.0.7
-  http:
+  http: ^0.13.3
   shared_preferences: ^2.0.6
 
   firebase_auth: ^1.4.0
@@ -40,6 +40,8 @@ dependencies:
   firebase_storage: ^8.1.3
   image_picker: ^0.8.0+3
   firebase_messaging: ^10.0.2
+
+  rxdart: ^0.27.1
   
 
   google_maps_flutter: ^2.0.6
@@ -47,6 +49,7 @@ dependencies:
 
   path: ^1.8.0
   provider: ^5.0.0
+  mvc_pattern: 5.1.0
 
   
 
