@@ -10,6 +10,7 @@ import 'home_screen.dart';
 import '../screens/mobile_number_screen.dart';
 import '../my_providers/cart/my_items_screen.dart';
 import 'my_todo_list.dart';
+import 'my_todo_list_mvc.dart';
 
 class AuthFlowScreen extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _AuthFlowScreenState extends State<AuthFlowScreen> {
     if (FirebaseAuth.instance.currentUser != null) {
       // user logged in
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (builder) => MyToListScreen()),
+          MaterialPageRoute(builder: (builder) => MyToListMVC()),
           (route) => false);
     } else {
       // user not loggin in

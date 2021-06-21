@@ -49,6 +49,7 @@ dependencies:
 
   path: ^1.8.0
   provider: ^5.0.0
+  mvc_pattern: 5.1.0
 
   
 
