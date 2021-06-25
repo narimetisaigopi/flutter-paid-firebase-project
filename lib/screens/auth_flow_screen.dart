@@ -22,7 +22,7 @@ class _AuthFlowScreenState extends State<AuthFlowScreen> {
     if (FirebaseAuth.instance.currentUser != null) {
       // user logged in
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (builder) => MyToListMVC()),
+          MaterialPageRoute(builder: (builder) => HomeScreen()),
           (route) => false);
     } else {
       // user not loggin in
