@@ -5,6 +5,7 @@ import 'package:my_first_app/models/news_model.dart';
 
 import 'curd_firestore.dart';
 import 'home_screen.dart';
+import 'news_screen.dart';
 
 class StreamHomes extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _StreamHomesState extends State<StreamHomes> {
   @override
   initState() {
     // default screen
-    body = Text("text is $count");
+    body = NewsScreen();
     super.initState();
   }
 
@@ -37,11 +38,12 @@ class _StreamHomesState extends State<StreamHomes> {
       appBar: AppBar(
         title: Text("Strams"),
       ),
-      body: InkWell(
-          child: Center(child: body),
-          onTap: () {
-            updateMyWidget();
-          }),
+      body: NewsScreen(),
+      // body: InkWell(
+      //     child: Center(child: body),
+      //     onTap: () {
+      //       updateMyWidget();
+      //     }),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(

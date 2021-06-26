@@ -27,6 +27,13 @@ class NewsModel {
     );
   }
 
+  toUpdateMap() {
+    return {
+      'title': title,
+      'description': description,
+    };
+  }
+
   toMap() {
     return {
       'imageUrl': imageUrl,

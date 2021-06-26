@@ -6,37 +6,59 @@ import 'package:my_first_app/models/news_model.dart';
 class FirestoreCRUDProvider extends ChangeNotifier {
   List<NewsModel> _newsModelList = [];
 
-  //List<NewsModel> get data => _newsModelList;
+  List<NewsModel> get data => _newsModelList;
 
   FirestoreCRUDProvider() {
-    dataAll();
+    //dataAll();
   }
 
-  List<NewsModel> get items {
-    return [..._newsModelList];
-  }
+  // List<NewsModel> get items {
+  //   return [..._newsModelList];
+  // }
 
-  dataAll() {
-    FirebaseFirestore.instance.collection("crud").snapshots().listen((event) {
-      items.addAll(event.docs.map((e) => NewsModel.fromMap(e.data())).toList());
-    });
-    notifyListeners();
+  dataAll() async {
+    try {
+      FirebaseFirestore.instance.collection("crud").snapshots().listen((event) {
+        print("dataAll: in " + event.size.toString());
+        _newsModelList.addAll(
+            event.docs.map((e) => NewsModel.fromMap(e.data())).toList());
+        print("dataAll: af in " + _newsModelList.length.toString());
+        notifyListeners();
+      });
+    } catch (e) {
+      print("dataAll: " + e.toString());
+    }
+
+    print("dataAll: " + _newsModelList.length.toString());
     fecthDaata();
+
+    //notifyListeners();
+    //fecthDaata();
+  }
+
+  newsStream({String id}) async {
+    return id == null
+        ? FirebaseFirestore.instance
+            .collection("crud")
+            .where("start", isGreaterThan: "start")
+            .where("end", isLessThan: "")
+            .snapshots()
+        : FirebaseFirestore.instance.collection("crud/$id").doc("").get();
   }
 
   fecthDaata() {
     FirebaseFirestore.instance.collection("crud").snapshots().listen((event) {
       event.docChanges.forEach((element) {
         if (element.type == DocumentChangeType.added) {
-          items.add(NewsModel.fromMap(element.doc.data()));
+          _newsModelList.add(NewsModel.fromMap(element.doc.data()));
         }
-        if (element.type == DocumentChangeType.removed) {
-          items.remove(NewsModel.fromMap(element.doc.data()));
-        }
-        if (element.type == DocumentChangeType.modified) {
-          items.remove(NewsModel.fromMap(element.doc.data()));
-          items.add(NewsModel.fromMap(element.doc.data()));
-        }
+        // if (element.type == DocumentChangeType.removed) {
+        //   _newsModelList.remove(NewsModel.fromMap(element.doc.data()));
+        // }
+        // if (element.type == DocumentChangeType.modified) {
+        //   _newsModelList.remove(NewsModel.fromMap(element.doc.data()));
+        //   _newsModelList.add(NewsModel.fromMap(element.doc.data()));
+        // }
         notifyListeners();
       });
     });
@@ -56,12 +78,12 @@ class FirestoreCRUDProvider extends ChangeNotifier {
     newsModel.uid = FirebaseAuth.instance.currentUser.uid;
 
     DocumentReference documentReference =
-        firebaseFirestore.collection("crud").doc("sasas");
+        firebaseFirestore.collection("crud").doc("");
     // add
 
     newsModel.docID = documentReference.id;
     //await documentReference.set(newsModel.toMap());
-    await documentReference.update(newsModel.toMap());
+    await documentReference.set(newsModel.toMap());
     notifyListeners();
   }
 }
