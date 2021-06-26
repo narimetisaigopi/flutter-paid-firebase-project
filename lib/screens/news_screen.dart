@@ -17,40 +17,56 @@ class _NewsScreenState extends State<NewsScreen> {
   void initState() {
     firestoreCRUDProvider =
         Provider.of<FirestoreCRUDProvider>(context, listen: false);
+    firestoreCRUDProvider.fecthDaata();
     super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: firestoreCRUDProvider.items.length,
-        itemBuilder: (context, index) {
-          NewsModel newsModel = firestoreCRUDProvider.items[index];
-          return InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (builder) => HomeScreen()));
-            },
-            child: Card(
-              child: Container(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Text(newsModel.title),
-                    Text(newsModel.description),
-                    IconButton(
-                        onPressed: () async {
-                          await FirebaseFirestore.instance
-                              .collection("crud")
-                              .doc(newsModel.docID)
-                              .delete();
-                        },
-                        icon: Icon(Icons.delete, color: Colors.red))
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
+    return Consumer<FirestoreCRUDProvider>(
+      builder: (context, data, child) {
+        return data.data.length == 0
+            ? Center(
+                child: Text("No News"),
+              )
+            : ListView.builder(
+                itemCount: data.data.length,
+                itemBuilder: (context, index) {
+                  NewsModel newsModel = data.data[index];
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => HomeScreen()));
+                    },
+                    child: Card(
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            Text(newsModel.title),
+                            Text(newsModel.description),
+                            IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("crud")
+                                      .doc(newsModel.docID)
+                                      .delete();
+                                },
+                                icon: Icon(Icons.delete, color: Colors.red))
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
+      },
+    );
   }
 }
